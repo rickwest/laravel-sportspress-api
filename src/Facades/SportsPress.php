@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Facade;
 class SportsPress extends Facade
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function getFacadeAccessor()
     {

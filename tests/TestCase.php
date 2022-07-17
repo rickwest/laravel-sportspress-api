@@ -8,7 +8,7 @@ use RickWest\SportsPress\SportPressServiceProvider;
 class TestCase extends Orchestra
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getPackageProviders($app)
     {
