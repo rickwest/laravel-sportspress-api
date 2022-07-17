@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `laravel-wordpress-api` will be documented in this file.
+All notable changes to `laravel-sportspress-api` will be documented in this file.
