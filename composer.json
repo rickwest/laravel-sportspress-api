@@ -63,7 +63,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RickWest\\Sportspress\\SportPressServiceProvider"
+                "RickWest\\SportsPress\\SportsPressServiceProvider"
             ],
             "aliases": {
                 "SportsPress": "RickWest\\SportsPress\\Facades\\SportsPress"

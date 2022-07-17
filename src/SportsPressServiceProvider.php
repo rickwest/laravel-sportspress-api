@@ -5,7 +5,7 @@ namespace RickWest\SportsPress;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class SportPressServiceProvider extends PackageServiceProvider
+class SportsPressServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
