@@ -20,7 +20,7 @@
     "require": {
         "php": "^8.1",
         "illuminate/contracts": "^9.0",
-        "rickwest/laravel-wordpress-api": "dev-main",
+        "rickwest/laravel-wordpress-api": "^0.1.0",
         "spatie/laravel-package-tools": "^1.9.2"
     },
     "require-dev": {
