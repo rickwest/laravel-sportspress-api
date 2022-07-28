@@ -135,15 +135,15 @@ class SportsPressTest extends TestCase
     public function resourceNameClassProvider(): array
     {
         return [
-            ['calendars', Calendars::class, ],
-            ['events', Events::class, ],
-            ['leagues', Leagues::class, ],
-            ['players', Players::class, ],
-            ['roles', Roles::class, ],
-            ['seasons', Seasons::class, ],
-            ['staff', Staff::class, ],
-            ['teams', Teams::class, ],
-            ['venues', Venues::class, ],
+            ['calendars', Calendars::class],
+            ['events', Events::class],
+            ['leagues', Leagues::class],
+            ['players', Players::class],
+            ['roles', Roles::class],
+            ['seasons', Seasons::class],
+            ['staff', Staff::class],
+            ['teams', Teams::class],
+            ['venues', Venues::class],
         ];
     }
 }
