@@ -3,17 +3,17 @@
 namespace RickWest\SportsPress\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use RickWest\SportsPress\SportPressServiceProvider;
+use RickWest\SportsPress\SportsPressServiceProvider;
 
 class TestCase extends Orchestra
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            SportPressServiceProvider::class,
+            SportsPressServiceProvider::class,
         ];
     }
 }

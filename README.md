@@ -1,22 +1,55 @@
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
-
-# This is my package laravel-sportspress-api
+<img src="./art/social-image.png"  alt=""/>
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/rickwest/laravel-sportspress-api.svg?style=flat-square)](https://packagist.org/packages/rickwest/laravel-sportspress-api)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/rickwest/laravel-sportspress-api/run-tests?label=tests)](https://github.com/rickwest/laravel-sportspress-api/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/rickwest/laravel-sportspress-api/Check%20&%20fix%20styling?label=code%20style)](https://github.com/rickwest/laravel-sportspress-api/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/rickwest/laravel-sportspress-api.svg?style=flat-square)](https://packagist.org/packages/rickwest/laravel-sportspress-api)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+An unambitious read-only client for the SportsPress REST API (v2). This package is built on top of my [Laravel WordPress API package](https://github.com/rickwest/laravel-wordpress-api), and provides an expressive, fluent, Laravel-esque way of querying the SportsPress API.
 
-## Support us
+```php
+// Without the package 👎
+Http::get('https://example.com/wp-json/sportspress/v2/players', [
+    'search' => 'lebron',
+    '_embed' => 1,
+    'orderby' => 'date',
+    'order' => 'desc'
+    '_fields' => 'title',
+]);
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-sportspress-api.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-sportspress-api)
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+// Using the package 👌
+SportsPress::players()
+    ->search('lebron')
+    ->embed()
+    ->latest()
+    ->get('title');
+```
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+As well as the fluent query builder, you also benefit from a nicely formatted response, including pagination information.
+
+```php
+// Without the package 👎
+$response = Http::get('https://example.com/wp-json/sportspress/v2/players');
+$data = $response->json();
+$pages = $response->header('X-WP-TotalPages');
+$total = $response->header('X-WP-Total');
+
+
+// Using the package 👌
+$players = SportsPress::players()->get();
+
+// $posts
+[
+    'data' => [...],
+    'meta' => [
+        'pages' => 1,
+        'total' => 10,
+    ],
+],
+
+```
 
 ## Installation
 
@@ -26,38 +59,74 @@ You can install the package via composer:
 composer require rickwest/laravel-sportspress-api
 ```
 
-You can publish and run the migrations with:
+Then you need to add your WordPress url to your `.env` file:
 
-```bash
-php artisan vendor:publish --tag="laravel-sportspress-api-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="laravel-sportspress-api-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-sportspress-api-views"
+```dotenv
+WORDPRESS_URL=https://example.com
 ```
 
 ## Usage
 
+This package binds a singleton to the Laravel service container, so you can easily resolve the WordPress client directly from the container, or via dependency injection.
+Alternatively, the package also exposes both a Facade and a helper function should you prefer a shorter more expressive option.
+
+The package has support for the following SportsPress resources: *calendars, events, leagues, players, positions, roles, seasons, staff, teams, venues*.
+
 ```php
-$sportspress = new RickWest\Wordpress();
-echo $sportspress->echoPhrase('Hello, RickWest!');
+// Resolve service directly from container and access the Players API
+app(SportsPress::class)->players();
+
+// Resolve via Facade and access the Players API
+SportsPress::players(); 
+
+// Resolve service via helper and access the Players API
+sportspress()->players();
+
+// Supported resources
+SportsPress::calendars() // Access the Calendars API
+SportsPress::events() // Access the Events API
+SportsPress::leagues() // Access the Leagues API
+SportsPress::players() // Access the Players API
+SportsPress::postitions() // Access the Positions API
+SportsPress::roles() // Access the Roles API
+SportsPress::seasons() // Access the Seasons API
+SportsPress::staff() // Access the Staff API
+SportsPress::teams() // Access the Teams API
+SportsPress::venues() // Access the Venues API
+
+// You can also access resources as properties
+sportspress()->players
 ```
+
+### Retrieving resource
+
+Call the `find` method on a resource class in order to get a single resource by ID:``
+
+```php
+SportsPress::players()->find(1);
+```
+
+For more examples, detailed usage and a full list of available options, please see https://github.com/rickwest/laravel-wordpress-api#retrieve-a-single-resource
+
+### Retrieve a collection of resources
+
+Call the `get` method on a resource to retrieve a collection of resources. The response you receive can be controlled and filtered using various parameters, https://developer.wordpress.org/rest-api/reference/.
+This package provides some fluent builder methods in order to easily and expressively build your desired query. Collection responses are then nicely formatted and include useful pagination information.
+
+```php
+SportsPress::players()->get();
+```
+For more examples, detailed usage and a full list of available options, please see https://github.com/rickwest/laravel-wordpress-api#creating-updating-and-deleting-resources
+
+### Creating, updating and deleting resources
+
+Whilst this package is primarily intended for reading data from the SportsPress API, it is possible to perform write operations using the `send` method on a resource class.
+
+```php
+SportsPress::players()->send(string $method, int $id, array $options);
+```
+
+For more examples, detailed usage and a full list of available options, please see https://github.com/rickwest/laravel-wordpress-api#retrieve-a-collection-of-resources
 
 ## Testing
 
@@ -71,7 +140,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/rickwest/.github/blob/main/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 

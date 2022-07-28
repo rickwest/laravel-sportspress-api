@@ -12,7 +12,7 @@ use RickWest\SportsPress\Resources\Seasons;
 use RickWest\SportsPress\Resources\Staff;
 use RickWest\SportsPress\Resources\Teams;
 use RickWest\SportsPress\Resources\Venues;
-use RickWest\Wordpress\BaseWordpress;
+use RickWest\WordPress\BaseWordPress;
 
 /**
  * @method Calendars calendars()
@@ -26,7 +26,7 @@ use RickWest\Wordpress\BaseWordpress;
  * @method Teams teams()
  * @method Venues venues()
  */
-class SportsPress extends BaseWordpress
+class SportsPress extends BaseWordPress
 {
     protected array $resources = [
         'calendars' => Calendars::class,

@@ -2,15 +2,15 @@
 
 namespace RickWest\SportsPress\Resources;
 
-use RickWest\Wordpress\Resources\Resource;
-use RickWest\Wordpress\Resources\Traits\HasSlug;
+use RickWest\WordPress\Resources\Resource;
+use RickWest\WordPress\Resources\Traits\HasSlug;
 
 abstract class SportsPressResource extends Resource
 {
     use HasSlug;
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function endpoint(): string
     {
