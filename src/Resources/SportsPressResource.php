@@ -10,7 +10,7 @@ abstract class SportsPressResource extends Resource
     use HasSlug;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function endpoint(): string
     {
